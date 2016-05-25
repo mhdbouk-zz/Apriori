@@ -23,7 +23,13 @@ namespace BAL
 
         public static string ToDisplay(this List<string> list, string exclude, string separator = ", ")
         {
-           return list.ToDisplay().Replace(string.Format("{0}{1}", separator, exclude), "").Replace(string.Format("{0}{1}", exclude, separator.Trim()), "").Trim();
+            List<string> dump = new List<string>();
+            foreach (var item in list)
+            {
+                if (item == exclude) continue;
+                dump.Add(item.ToString());
+            }
+            return dump.ToDisplay();
         }
 
         public static string ToPercentString(this object item)

@@ -108,12 +108,12 @@ namespace Apriori
             {
                 next = false;
                 var L = apriori.GetItemSet(k, Support, IsFirstItemList: k == 1);
-                List<AssociationRule> rules = new List<AssociationRule>();
-                if (k != 1)
-                    rules = apriori.GetRules(L);
-                TableUserControl tableL = new TableUserControl(L, rules);
                 if (L.Count > 0)
                 {
+                    List<AssociationRule> rules = new List<AssociationRule>();
+                    if (k != 1)
+                        rules = apriori.GetRules(L);
+                    TableUserControl tableL = new TableUserControl(L, rules);
                     next = true;
                     k++;
                     ItemSets.Add(L);
@@ -143,12 +143,17 @@ namespace Apriori
         List<Thread> threads = new List<Thread>();
         private void RefreshButton_Click(object sender, EventArgs e)
         {
+            AbortThread();
+            DoThingThread();
+        }
+
+        private void AbortThread()
+        {
             foreach (var thread in threads)
             {
                 thread.Abort();
             }
             threads.Clear();
-            DoThingThread();
         }
 
         private void DoThingThread()
@@ -168,6 +173,11 @@ namespace Apriori
             { Name = "DoThings" };
             threads.Add(t);
             t.Start();
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            AbortThread();
         }
     }
 }

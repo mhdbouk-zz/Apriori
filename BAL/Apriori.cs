@@ -16,7 +16,7 @@ namespace BAL
         public Apriori(string FilePath)
         {
             _FilePath = FilePath;
-            list = File.ReadAllLines(FilePath).ToList();
+            list = File.ReadAllLines(FilePath).ToList().Where(a=>!string.IsNullOrWhiteSpace(a)).ToList();
             ItemSets = new List<ItemSet>();
             SetDistinctValues(list);
         }
@@ -40,7 +40,7 @@ namespace BAL
                     bool found = false;
                     foreach (var item2 in item)
                     {
-                        if (word.Contains(item2))
+                        if (word.Split(' ').Contains(item2))
                             found = true;
                         else
                         {
@@ -69,6 +69,7 @@ namespace BAL
                 var row = item.Split(' ');
                 foreach (var item2 in row)
                 {
+                    if (string.IsNullOrWhiteSpace(item2)) continue;
                     if (!data.Contains(item2))
                         data.Add(item2);
                 }
@@ -112,13 +113,18 @@ namespace BAL
 
         private AssociationRule GetSingleRule(string set, KeyValuePair<List<string>, int> item)
         {
+            var setItems = set.Split(',');
+            for (int i = 0; i < setItems.Count(); i++)
+            {
+                setItems[i] = setItems[i].Trim();
+            }
             AssociationRule rule = new AssociationRule();
             StringBuilder sb = new StringBuilder();
             sb.Append(set).Append(" => ");
             List<string> list = new List<string>();
             foreach (var set2 in item.Key)
             {
-                if (set == set2 || set.Contains(", " + set2) || set.Contains(", " + set2)) continue;
+                if (setItems.Contains(set2)) continue;
                 list.Add(set2);
             }
             sb.Append(list.ToDisplay());
