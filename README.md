@@ -1,5 +1,5 @@
-# Apriori
-C# Implementation of Apriori Algorithm
+# Apriori - Association Rules
+C# Implementation of Apriori Algorithm Using Association Rules
 
 ![Demo Image](https://github.com/mhdbouk/Apriori/blob/master/demo.png)
 
