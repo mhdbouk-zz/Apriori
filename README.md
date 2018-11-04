@@ -1,6 +1,8 @@
 # Apriori
 C# Implementation of Apriori Algorithm
 
+![Demo Image](https://github.com/mhdbouk/Apriori/blob/master/demo.png)
+
 ## Demo
 1. Download the demo.txt transaction file.
 2. Run the application
